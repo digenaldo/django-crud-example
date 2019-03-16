@@ -77,8 +77,12 @@ WSGI_APPLICATION = 'conceptu.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'dcl0nlq958jll',
+        'USER': 'uphignvzkxdyfx',
+        'PASSWORD': 'f80cd70c68f753467ed29511954d25034e4e4ac15e6c093e81d89f43642e5ab1',
+        'HOST': 'ec2-50-19-109-120.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
