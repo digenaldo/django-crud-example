@@ -15,7 +15,7 @@ Get Started:
 ```
 #in env
 
-$ pip install -r requirements.txt
+$ sudo pip install -r requirements.txt
 
 $ ./manage.py migrate
 
