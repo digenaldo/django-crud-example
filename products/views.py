@@ -8,33 +8,25 @@ from django.urls import reverse_lazy
 from .models import Product
 from .forms import ProductForm
 
-def index(request):
-    return HttpResponse("Hello, world.")
-
-class ProductList(ListView):
-    """Product list generic views"""" 
+class ProductList(ListView): 
     model = Product
 
-class ProductDetail(DetailView):
-    """Product detail generic views""""  
+class ProductDetail(DetailView): 
     model = Product
 
-class ProductCreate(SuccessMessageMixin, CreateView):
-    """Product create generic views""""  
+class ProductCreate(SuccessMessageMixin, CreateView): 
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('product_list')
     success_message = "Product successfully created!"
 
 class ProductUpdate(SuccessMessageMixin, UpdateView): 
-    """Product update generic views"""" 
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('product_list')
     success_message = "Product successfully updated!"
 
-class ProductDelete(SuccessMessageMixin, DeleteView): 
-    """Product delete generic views"""" 
+class ProductDelete(SuccessMessageMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('product_list')
     success_message = "Product successfully deleted!"
