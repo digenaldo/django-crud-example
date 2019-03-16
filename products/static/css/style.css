@@ -1,0 +1,13 @@
+body {
+    background: whitesmoke
+}
+#app {
+    background: white;
+    padding: 30px;
+    margin: 30px auto;
+    -webkit-box-shadow: 1px 1px 2px 0px rgba(224,224,224,1);
+    -moz-box-shadow: 1px 1px 2px 0px rgba(224,224,224,1);
+    box-shadow: 1px 1px 2px 0px rgba(224,224,224,1);
+    border-radius: 4px;
+}
+.top-buffer { margin-top:20px; }
