@@ -7,7 +7,7 @@ Demo:
 
 Used:
 
-- Django
+- Django 2
 - Bootstrap 4
 
 Get Started:
