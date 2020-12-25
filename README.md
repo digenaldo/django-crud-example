@@ -26,7 +26,7 @@ $ ./manage.py runserver
 Admin:
 
 ```
-#in /admin
+python manage.py createsuperuser
 
-username: admin
-password: 1q2w3e4r
+access /admin
+```
