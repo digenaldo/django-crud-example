@@ -128,3 +128,13 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
+# After login
+LOGIN_REDIRECT_URL = "dashboard"
+
+# After logout
+LOGOUT_REDIRECT_URL = "dashboard"
+
+# SMTP
+EMAIL_HOST = "localhost"
+EMAIL_PORT = 1025
+
