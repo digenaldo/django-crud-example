@@ -22,3 +22,11 @@ $ ./manage.py migrate
 $ ./manage.py runserver
 
 ```
+
+Admin:
+
+```
+#in /admin
+
+username: admin
+password: 1q2w3e4r
