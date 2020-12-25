@@ -21,12 +21,10 @@ $ ./manage.py migrate
 
 $ ./manage.py runserver
 
-```
+#django admin
 
-Admin:
-
-```
-python manage.py createsuperuser
+$ python manage.py createsuperuser
 
 access /admin
+
 ```
