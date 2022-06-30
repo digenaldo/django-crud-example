@@ -13,7 +13,7 @@ Used:
 Get Started:
 
 ```
-#in env
+#in your env
 
 $ sudo pip install -r requirements.txt
 
