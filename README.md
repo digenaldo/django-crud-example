@@ -9,6 +9,7 @@ Used:
 
 - Django 4
 - Bootstrap 4
+- Postgres
 
 Get Started:
 
