@@ -3,5 +3,5 @@ Django==5.0.1
 django-heroku==0.3.1
 gunicorn==21.2.0
 psycopg2==2.9.9
-pytz==2023.3.post1
+pytz==2023.4
 whitenoise==6.6.0
