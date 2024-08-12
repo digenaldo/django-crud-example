@@ -1,7 +1,7 @@
 dj-database-url==2.2.0
 Django==5.1
 django-heroku==0.3.1
-gunicorn==22.0.0
+gunicorn==23.0.0
 psycopg2==2.9.9
 pytz==2024.1
 whitenoise==6.7.0
