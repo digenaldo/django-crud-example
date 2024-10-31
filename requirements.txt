@@ -1,4 +1,4 @@
-dj-database-url==2.2.0
+dj-database-url==2.3.0
 Django==5.1.2
 django-heroku==0.3.1
 gunicorn==23.0.0
