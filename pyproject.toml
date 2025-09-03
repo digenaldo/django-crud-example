@@ -1,0 +1,88 @@
+[tool.poetry]
+name = "conceptu"
+version = "0.1.0"
+description = "A Django web application"
+authors = ["Your Name <your.email@example.com>"]
+readme = "README.md"
+packages = [{include = "conceptu"}, {include = "products"}, {include = "users"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+dj-database-url = "2.3.0"
+Django = "5.1.9"
+django-heroku = "0.3.1"
+gunicorn = "23.0.0"
+psycopg2 = "2.9.10"
+pytz = "2025.2"
+whitenoise = "6.9.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.0.0"
+pytest-cov = "^4.0.0"
+pytest-mock = "^3.12.0"
+pytest-django = "^4.8.0"
+
+[tool.poetry.scripts]
+test = "pytest:main"
+tests = "pytest:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "conceptu.settings"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-v",
+    "--strict-markers",
+    "--strict-config",
+    "--cov=conceptu",
+    "--cov=products", 
+    "--cov=users",
+    "--cov-report=html",
+    "--cov-report=xml",
+    "--cov-report=term-missing",
+    "--cov-fail-under=80"
+]
+markers = [
+    "unit: marks tests as unit tests (fast)",
+    "integration: marks tests as integration tests (slower)",
+    "slow: marks tests as slow running"
+]
+
+[tool.coverage.run]
+source = ["conceptu", "products", "users"]
+omit = [
+    "*/migrations/*",
+    "*/tests/*",
+    "*/venv/*",
+    "*/env/*",
+    "manage.py",
+    "*/settings.py",
+    "*/wsgi.py",
+    "*/asgi.py"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:"
+]
+show_missing = true
+skip_covered = false
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+[tool.coverage.xml]
+output = "coverage.xml"

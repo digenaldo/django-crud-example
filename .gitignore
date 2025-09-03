@@ -103,4 +103,16 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# Claude Code
+.claude/
+
+# Poetry lock file (keep this tracked)
+# poetry.lock should NOT be ignored
+
+# Additional test artifacts
+.pytest_cache/
+htmlcov/
+.coverage
+coverage.xml
+
 .idea
