@@ -19,9 +19,21 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
+            {% if user.is_authenticated %}
+            <li class="nav-item mr-2">
               <a class="btn btn-outline-info btn-md" href="{% url 'product_new' %}">+ New Product</a>
             </li>
+            <li class="nav-item">
+              <span class="navbar-text text-light mr-3">Olá, {{ user.username }}</span>
+            </li>
+            <li class="nav-item">
+              <a class="btn btn-outline-light btn-md" href="{% url 'logout' %}">Logout</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="btn btn-outline-light btn-md" href="{% url 'login' %}">Login</a>
+            </li>
+            {% endif %}
           </ul>
         </div>
       </div>
@@ -38,4 +50,5 @@
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
   </body>
+</html>
 </html>
