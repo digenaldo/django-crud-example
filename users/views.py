@@ -4,6 +4,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse, HttpResponse
 
 @require_http_methods(["GET", "POST"])
 def login_view(request):
@@ -31,3 +33,8 @@ def logout_view(request):
     logout(request)
     messages.success(request, 'Logout realizado com sucesso!')
     return redirect('login')
+
+@csrf_exempt
+def health_check(request):
+    """Health check endpoint for Render monitoring"""
+    return JsonResponse({'status': 'ok'}, status=200)
