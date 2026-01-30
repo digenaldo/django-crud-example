@@ -1,22 +1,84 @@
 {% extends 'products/base.html' %}
 
+{% block title %}{% if form.instance.pk %}Edit Product{% else %}New Product{% endif %} - Product Management{% endblock %}
+
 {% block content %}
-    <h1 class="my-4">{% if request.path == '/new' %} New Product {% else %} Edit - {% endif %}
-        {% if request.path != '/new' %}<small>{{ product.name }}</small>{% endif %}
-    </h1>
-    <div class="row">
-        <div class="col-12">
-            <form method="post">
-                {% csrf_token %}
-                {% for field in form %}
-                    <div class="form-group">
-                        {{ field.label_tag }}
-                        {{ field }}
+<div class="row mb-4">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'product_list' %}"><i class="fas fa-home"></i> Products</a></li>
+                <li class="breadcrumb-item active">{% if form.instance.pk %}Edit{% else %}New{% endif %}</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-{% if form.instance.pk %}info{% else %}success{% endif %} text-white">
+                <h3 class="mb-0">
+                    <i class="fas fa-{% if form.instance.pk %}edit{% else %}plus-circle{% endif %}"></i>
+                    {% if form.instance.pk %}Edit Product{% else %}New Product{% endif %}
+                </h3>
+            </div>
+            <div class="card-body">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+                    
+                    {% for field in form %}
+                        <div class="form-group">
+                            <label for="{{ field.id_for_label }}" class="font-weight-bold">
+                                {{ field.label }}
+                                {% if field.field.required %}<span class="text-danger">*</span>{% endif %}
+                            </label>
+                            {{ field }}
+                            {% if field.help_text %}
+                                <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                            {% if field.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ field.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    
+                    <div class="form-group mt-4">
+                        <button type="submit" class="btn btn-{% if form.instance.pk %}info{% else %}success{% endif %} btn-lg">
+                            <i class="fas fa-{% if form.instance.pk %}save{% else %}plus-circle{% endif %}"></i>
+                            {% if form.instance.pk %}Update{% else %}Add{% endif %} Product
+                        </button>
+                        <a href="{% url 'product_list' %}" class="btn btn-secondary btn-lg">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
                     </div>
-                {% endfor %}
-                <input type="submit" {% if request.path == '/new' %} value="Add" {% else %} value="Update" {% endif %} class="btn btn-success"/>
-                <a href="{% url 'product_list' %}"><button type="button" class="btn btn-secondary">Back</button></a>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
+</div>
+
+<style>
+    .form-control {
+        border-radius: 8px;
+        border: 2px solid #e0e0e0;
+        padding: 10px 15px;
+        transition: all 0.3s;
+    }
+    .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+    textarea.form-control {
+        min-height: 120px;
+    }
+</style>
 {% endblock %}

@@ -1,23 +1,103 @@
 {% extends 'products/base.html' %}
 
-{% block content %}
-    <h1 class="my-4">Detail -
-        <small>{{ object.name }}</small>
-    </h1>
-    <div class="row">
-        <div class="col-12">
-            <ul class="list-group">
-              <li class="list-group-item"><strong>Name:</strong> {{ object.name }}</li>
-              <li class="list-group-item"><strong>Description:</strong> {{ object.description }}</li>
-              <li class="list-group-item"><strong>Price:</strong> {{ object.price }}</li>
-            </ul>
-        </div>
-    </div>
+{% block title %}{{ object.name }} - Product Management{% endblock %}
 
-    <div class="row top-buffer">
-        <div class="col-12">
-                <a href="{% url 'product_edit' object.id %}"><button type="button" class="btn btn-success">Edit</button></a>
-                <a href="{% url 'product_list' %}"><button type="button" class="btn btn-secondary">Back</button></a>
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'product_list' %}"><i class="fas fa-home"></i> Products</a></li>
+                <li class="breadcrumb-item active">{{ object.name }}</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">
+                    <i class="fas fa-cube"></i> Product Details
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h2 class="text-primary font-weight-bold">{{ object.name }}</h2>
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-sm-4">
+                        <strong><i class="fas fa-tag"></i> Name:</strong>
+                    </div>
+                    <div class="col-sm-8">
+                        {{ object.name }}
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <div class="row mb-3">
+                    <div class="col-sm-4">
+                        <strong><i class="fas fa-align-left"></i> Description:</strong>
+                    </div>
+                    <div class="col-sm-8">
+                        {% if object.description %}
+                            <p class="mb-0">{{ object.description }}</p>
+                        {% else %}
+                            <em class="text-muted">No description</em>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <div class="row mb-3">
+                    <div class="col-sm-4">
+                        <strong><i class="fas fa-dollar-sign"></i> Price:</strong>
+                    </div>
+                    <div class="col-sm-8">
+                        <span class="h4 text-success font-weight-bold">$ {{ object.price|floatformat:2 }}</span>
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <div class="row mb-3">
+                    <div class="col-sm-4">
+                        <strong><i class="fas fa-calendar-plus"></i> Created on:</strong>
+                    </div>
+                    <div class="col-sm-8">
+                        {{ object.created|date:"M d, Y H:i" }}
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-sm-4">
+                        <strong><i class="fas fa-calendar-edit"></i> Last updated:</strong>
+                    </div>
+                    <div class="col-sm-8">
+                        {{ object.changed|date:"M d, Y H:i" }}
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-transparent">
+                <div class="btn-group" role="group">
+                    <a href="{% url 'product_edit' object.id %}" class="btn btn-primary">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <a href="{% url 'product_list' %}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </a>
+                    <a href="{% url 'product_delete' object.id %}" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Delete
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 {% endblock %}

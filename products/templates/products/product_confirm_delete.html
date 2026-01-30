@@ -1,19 +1,71 @@
 {% extends 'products/base.html' %}
 
+{% block title %}Confirm Deletion - Product Management{% endblock %}
+
 {% block content %}
-    <h1 class="my-4">Delete -
-        <small>{{ object }}</small>
-    </h1>
-    <div class="row">
-        <div class="col-12">
-            <form method="post">
-                {% csrf_token %}
-                <div class="alert alert-warning" role="alert">
-                  Are you sure to delete {{ object }} ?
+<div class="row mb-4">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'product_list' %}"><i class="fas fa-home"></i> Products</a></li>
+                <li class="breadcrumb-item active">Delete</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-danger text-white">
+                <h3 class="mb-0">
+                    <i class="fas fa-exclamation-triangle"></i> Confirm Deletion
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning border-warning" role="alert">
+                    <h5 class="alert-heading">
+                        <i class="fas fa-exclamation-triangle"></i> Warning!
+                    </h5>
+                    <p class="mb-0">
+                        You are about to delete the product <strong>"{{ object.name }}"</strong>.
+                        This action cannot be undone.
+                    </p>
                 </div>
-                <input type="submit" class="btn btn-info" value="Yes, delete it" />
-                <a class="btn btn-success" href="{% url 'product_list' %}">No, just I've tried the delete button</a>
-            </form>
+                
+                <div class="card bg-light mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-cube text-primary"></i> {{ object.name }}
+                        </h5>
+                        <p class="card-text">
+                            <strong>Description:</strong> 
+                            {% if object.description %}
+                                {{ object.description }}
+                            {% else %}
+                                <em class="text-muted">No description</em>
+                            {% endif %}
+                        </p>
+                        <p class="card-text">
+                            <strong>Price:</strong> 
+                            <span class="text-success font-weight-bold">$ {{ object.price|floatformat:2 }}</span>
+                        </p>
+                    </div>
+                </div>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="btn-group w-100" role="group">
+                        <button type="submit" class="btn btn-danger btn-lg">
+                            <i class="fas fa-trash"></i> Yes, delete permanently
+                        </button>
+                        <a href="{% url 'product_list' %}" class="btn btn-secondary btn-lg">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
+</div>
 {% endblock %}

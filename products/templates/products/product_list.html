@@ -1,48 +1,75 @@
 {% extends 'products/base.html' %}
 
+{% block title %}Product List - Product Management{% endblock %}
+
 {% block content %}
-    <h1 class="my-4">
-        <small>Product List</small>
-    </h1>
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-success" role="alert">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endif %}
-    <div class="row">
-    {% if object_list %}
-        <div class="col-12" style="overflow-x: scroll">
-            <table class="table">
-              <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">View</th>
-                    <th scope="col">Delete</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for product in object_list %}
-                <tr>
-                    <td>{{ product.name }}</td>
-                    <td>{{ product.description }}</td>
-                    <td>{{ product.price }}</td>
-                    <td><a href="{% url 'product_view' product.id %}"><button type="button" class="btn btn-outline-primary btn-sm">View</button></a></td>
-                    <td><a href="{% url 'product_delete' product.id %}"><button type="button" class="btn btn-outline-danger btn-sm">Delete</button></a></td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-        </div>
-    {% else %}
+<div class="row mb-4">
     <div class="col-12">
-        <div class="alert alert-warning" role="alert">
-            There is no product, yet. But if you want, you can add from <a class="badge badge-info" href="{% url 'product_new' %}"><strong>here.</strong></a>
+        <h1 class="display-4 font-weight-bold">
+            <i class="fas fa-boxes text-primary"></i> Products
+        </h1>
+        <p class="lead text-muted">Manage your products simply and efficiently</p>
+    </div>
+</div>
+
+{% if object_list %}
+    <div class="row">
+        {% for product in object_list %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column">
+                    <div class="mb-3">
+                        <h5 class="card-title font-weight-bold text-primary">
+                            <i class="fas fa-cube"></i> {{ product.name }}
+                        </h5>
+                        <p class="card-text text-muted">
+                            {% if product.description %}
+                                {{ product.description|truncatewords:15 }}
+                            {% else %}
+                                <em class="text-muted">No description</em>
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="mt-auto">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="h4 mb-0 text-success font-weight-bold">
+                                R$ {{ product.price|floatformat:2 }}
+                            </span>
+                        </div>
+                        <div class="btn-group w-100" role="group">
+                            <a href="{% url 'product_view' product.id %}" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                            <a href="{% url 'product_edit' product.id %}" class="btn btn-outline-info btn-sm">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <a href="{% url 'product_delete' product.id %}" class="btn btn-outline-danger btn-sm">
+                                <i class="fas fa-trash"></i> Delete
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent border-top-0 text-muted small">
+                    <i class="fas fa-calendar"></i> Created on {{ product.created|date:"M d, Y H:i" }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-inbox fa-4x text-muted mb-3"></i>
+                    <h4 class="text-muted">No products registered</h4>
+                    <p class="text-muted mb-4">Start by adding your first product!</p>
+                    <a href="{% url 'product_new' %}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-plus-circle"></i> Add First Product
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
-    {% endif %}
-    </div>
+{% endif %}
 {% endblock %}

@@ -1,37 +1,78 @@
 {% load static %}<!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Conceptu App</title>
+    <title>{% block title %}Product Management{% endblock %}</title>
     <!-- Bootstrap core CSS -->
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+      body {
+        background-color: #f8f9fa;
+        padding-top: 70px;
+      }
+      .navbar {
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+      }
+      .navbar-brand {
+        font-weight: 700;
+        font-size: 1.5rem;
+      }
+      .btn-outline-info, .btn-outline-light {
+        border-radius: 20px;
+        padding: 8px 20px;
+        transition: all 0.3s;
+      }
+      .btn-outline-info:hover, .btn-outline-light:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      }
+      .navbar-text {
+        font-weight: 500;
+      }
+    </style>
   </head>
   <body>
-
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="/">Conceptu</a>
+        <a class="navbar-brand" href="{% url 'product_list' %}">
+          <i class="fas fa-cube"></i> Product Management
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
+          <ul class="navbar-nav ml-auto align-items-center">
             {% if user.is_authenticated %}
-            <li class="nav-item mr-2">
-              <a class="btn btn-outline-info btn-md" href="{% url 'product_new' %}">+ New Product</a>
+            <li class="nav-item mr-3">
+              <a class="btn btn-outline-light btn-md" href="{% url 'product_new' %}">
+                <i class="fas fa-plus-circle"></i> New Product
+              </a>
+            </li>
+            <li class="nav-item mr-3">
+              <span class="navbar-text">
+                <i class="fas fa-user-circle"></i> Hello, <strong>{{ user.username }}</strong>
+              </span>
             </li>
             <li class="nav-item">
-              <span class="navbar-text text-light mr-3">Olá, {{ user.username }}</span>
-            </li>
-            <li class="nav-item">
-              <a class="btn btn-outline-light btn-md" href="{% url 'logout' %}">Logout</a>
+              <a class="btn btn-outline-light btn-md" href="{% url 'logout' %}">
+                <i class="fas fa-sign-out-alt"></i> Logout
+              </a>
             </li>
             {% else %}
+            <li class="nav-item mr-2">
+              <a class="btn btn-outline-light btn-md" href="{% url 'login' %}">
+                <i class="fas fa-sign-in-alt"></i> Login
+              </a>
+            </li>
             <li class="nav-item">
-              <a class="btn btn-outline-light btn-md" href="{% url 'login' %}">Login</a>
+              <a class="btn btn-light btn-md" href="{% url 'register' %}">
+                <i class="fas fa-user-plus"></i> Register
+              </a>
             </li>
             {% endif %}
           </ul>
@@ -41,6 +82,17 @@
 
     <!-- Page Content -->
     <div class="container" id="app">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show mt-3" role="alert">
+              <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' or message.tags == 'danger' %}exclamation-circle{% else %}info-circle{% endif %}"></i>
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {% endfor %}
+        {% endif %}
         {% block content %}
         {% endblock %}
     </div>
@@ -50,5 +102,4 @@
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
   </body>
-</html>
 </html>
