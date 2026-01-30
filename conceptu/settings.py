@@ -25,6 +25,10 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'i7v=ry2mk(gkab47rq+=n@4zjdkxldb*l7a4l
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',') if os.environ.get('ALLOWED_HOSTS') else ['*']
+# Remove empty strings from ALLOWED_HOSTS
+ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS if host.strip()]
+if not ALLOWED_HOSTS:
+    ALLOWED_HOSTS = ['*']
 
 
 # Application definition
