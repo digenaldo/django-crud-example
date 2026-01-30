@@ -1,1 +1,13 @@
-*.js linguist-language=Python
+# Force GitHub to recognize this as a Python project
+*.py linguist-detectable=true
+*.html linguist-detectable=false
+*.css linguist-detectable=false
+*.js linguist-detectable=false
+*.map linguist-detectable=false
+
+# Mark templates as generated/documentation (not counted in language stats)
+products/templates/** linguist-generated=true
+users/templates/** linguist-generated=true
+
+# Mark static files as vendored (not counted in language stats)
+products/static/** linguist-vendored=true
