@@ -80,12 +80,44 @@ WSGI_APPLICATION = 'conceptu.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+# Database configuration
+# Use environment variable for database URL if available (for Render PostgreSQL)
+# Otherwise, fall back to SQLite
+# On Render, use /tmp for SQLite to ensure write permissions
+db_path = os.environ.get('DATABASE_URL')
+if db_path:
+    try:
+        import dj_database_url
+        DATABASES = {
+            'default': dj_database_url.config(
+                default=db_path,
+                conn_max_age=600
+            )
+        }
+    except ImportError:
+        # Fallback if dj_database_url is not available
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            }
+        }
+else:
+    # For Render free tier, use /tmp directory for SQLite
+    # This ensures write permissions
+    # Check if we're on Render by checking for RENDER environment or hostname
+    is_render = os.environ.get('RENDER') or 'onrender.com' in os.environ.get('RENDER_EXTERNAL_HOSTNAME', '')
+    if is_render:
+        db_file = '/tmp/db.sqlite3'
+    else:
+        db_file = os.path.join(BASE_DIR, 'db.sqlite3')
+    
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': db_file,
+        }
     }
-}
 
 
 # Password validation

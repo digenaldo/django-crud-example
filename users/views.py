@@ -43,10 +43,18 @@ def register_view(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            username = form.cleaned_data.get('username')
-            messages.success(request, f'Account created successfully for {username}! Please sign in to continue.')
-            return redirect('login')
+            try:
+                user = form.save()
+                username = form.cleaned_data.get('username')
+                messages.success(request, f'Account created successfully for {username}! Please sign in to continue.')
+                return redirect('login')
+            except Exception as e:
+                # Log the error for debugging
+                import logging
+                import traceback
+                logger = logging.getLogger(__name__)
+                logger.error(f'Registration error: {str(e)}\n{traceback.format_exc()}')
+                messages.error(request, f'An error occurred while creating your account. Please try again or contact support.')
         else:
             for field, errors in form.errors.items():
                 for error in errors:
