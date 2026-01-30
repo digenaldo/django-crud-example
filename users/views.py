@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
@@ -20,19 +21,40 @@ def login_view(request):
         
         if user is not None:
             login(request, user)
-            messages.success(request, 'Login realizado com sucesso!')
+            messages.success(request, 'Login successful!')
             next_url = request.GET.get('next', 'product_list')
             return redirect(next_url)
         else:
-            messages.error(request, 'Usuário ou senha incorretos.')
+            messages.error(request, 'Invalid username or password.')
     
     return render(request, 'users/login.html')
 
 @login_required
 def logout_view(request):
     logout(request)
-    messages.success(request, 'Logout realizado com sucesso!')
+    messages.success(request, 'Logout successful!')
     return redirect('login')
+
+@require_http_methods(["GET", "POST"])
+def register_view(request):
+    if request.user.is_authenticated:
+        return redirect('product_list')
+    
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Account created successfully for {username}! Please sign in to continue.')
+            return redirect('login')
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f'{field}: {error}')
+    else:
+        form = UserCreationForm()
+    
+    return render(request, 'users/register.html', {'form': form})
 
 @csrf_exempt
 def health_check(request):

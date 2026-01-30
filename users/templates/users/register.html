@@ -1,0 +1,176 @@
+{% load static %}<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Register - Product Management</title>
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+      body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+      }
+      .card {
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        border: none;
+        border-radius: 15px;
+      }
+      .card-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 15px 15px 0 0 !important;
+        border: none;
+        padding: 1.5rem;
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 25px;
+        padding: 10px 30px;
+        font-weight: 600;
+        transition: transform 0.2s;
+      }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+      }
+      .form-control {
+        border-radius: 10px;
+        border: 2px solid #e0e0e0;
+        padding: 12px 15px;
+        transition: all 0.3s;
+      }
+      .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+      }
+      .form-group label {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 8px;
+      }
+      .alert {
+        border-radius: 10px;
+        border: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand font-weight-bold" href="/">
+          <i class="fas fa-cube"></i> Product Management
+        </a>
+        <div class="navbar-nav ml-auto">
+          <a class="nav-link" href="{% url 'login' %}">Already have an account? Sign In</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container mt-5 pt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+          <div class="card">
+            <div class="card-header text-center">
+              <h3 class="mb-0"><i class="fas fa-user-plus"></i> Create Account</h3>
+              <p class="mb-0 mt-2">Fill in the information below to register</p>
+            </div>
+            <div class="card-body p-4">
+              {% if messages %}
+                {% for message in messages %}
+                  <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    <strong>{{ message.tags|title }}!</strong> {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                {% endfor %}
+              {% endif %}
+
+              <form method="post" novalidate>
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="id_username">
+                    <i class="fas fa-user"></i> Username
+                  </label>
+                  <input type="text" 
+                         class="form-control {% if form.username.errors %}is-invalid{% endif %}" 
+                         id="id_username" 
+                         name="username" 
+                         required 
+                         autofocus
+                         value="{{ form.username.value|default:'' }}">
+                  {% if form.username.errors %}
+                    <div class="invalid-feedback">
+                      {{ form.username.errors.0 }}
+                    </div>
+                  {% endif %}
+                  <small class="form-text text-muted">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</small>
+                </div>
+
+                <div class="form-group">
+                  <label for="id_password1">
+                    <i class="fas fa-lock"></i> Password
+                  </label>
+                  <input type="password" 
+                         class="form-control {% if form.password1.errors %}is-invalid{% endif %}" 
+                         id="id_password1" 
+                         name="password1" 
+                         required>
+                  {% if form.password1.errors %}
+                    <div class="invalid-feedback">
+                      {{ form.password1.errors.0 }}
+                    </div>
+                  {% endif %}
+                  <small class="form-text text-muted">Your password can't be too similar to your other personal information.</small>
+                </div>
+
+                <div class="form-group">
+                  <label for="id_password2">
+                    <i class="fas fa-lock"></i> Password Confirmation
+                  </label>
+                  <input type="password" 
+                         class="form-control {% if form.password2.errors %}is-invalid{% endif %}" 
+                         id="id_password2" 
+                         name="password2" 
+                         required>
+                  {% if form.password2.errors %}
+                    <div class="invalid-feedback">
+                      {{ form.password2.errors.0 }}
+                    </div>
+                  {% endif %}
+                  <small class="form-text text-muted">Enter the same password as before, for verification.</small>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block btn-lg mt-4">
+                  <i class="fas fa-user-plus"></i> Create Account
+                </button>
+              </form>
+
+              <hr class="my-4">
+              
+              <div class="text-center">
+                <p class="mb-0">Already have an account?</p>
+                <a href="{% url 'login' %}" class="btn btn-outline-primary btn-sm mt-2">
+                  <i class="fas fa-sign-in-alt"></i> Sign In
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  </body>
+</html>
+
