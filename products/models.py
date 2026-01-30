@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.urls import reverse
 
 class Product(models.Model):
     name = models.CharField('Name', max_length=100)
