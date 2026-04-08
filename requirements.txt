@@ -1,5 +1,5 @@
 dj-database-url==3.1.2
-Django==6.0.3
+Django==6.0.4
 django-heroku==0.3.1
 gunicorn==25.3.0
 psycopg2==2.9.11
